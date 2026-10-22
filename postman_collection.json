@@ -1,0 +1,23 @@
+{
+  "info": {
+    "name": "Task Management API",
+    "description": "Register/login, then set token to the returned JWT for task routes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "token", "value": "" },
+    { "key": "taskId", "value": "" }
+  ],
+  "item": [
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Register", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Example User\",\n  \"email\": \"user@example.com\",\n  \"password\": \"ChangeMe123!\"\n}" }, "url": "{{baseUrl}}/auth/register" } },
+    { "name": "Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"ChangeMe123!\"\n}" }, "url": "{{baseUrl}}/auth/login" } },
+    { "name": "Me", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/auth/me" } },
+    { "name": "Create task", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Complete API task\",\n  \"description\": \"Build and review the API\",\n  \"priority\": \"high\",\n  \"status\": \"pending\",\n  \"dueDate\": \"2026-12-31T12:00:00.000Z\"\n}" }, "url": "{{baseUrl}}/tasks" } },
+    { "name": "List tasks", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/tasks?page=1&limit=10&search=API&sort=createdAt" } },
+    { "name": "Get task", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/tasks/{{taskId}}" } },
+    { "name": "Update task", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"completed\"\n}" }, "url": "{{baseUrl}}/tasks/{{taskId}}" } },
+    { "name": "Delete task", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/tasks/{{taskId}}" } }
+  ]
+}
